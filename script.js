@@ -1,10 +1,11 @@
-// ✅ Array of quiz questions and answers
+// ✅ Quiz Questions Array
 let questions = [
   {
     question: "What is the capital of Pakistan?",
     options: ["Karachi", "Islamabad", "Lahore", "Quetta"],
     answer: "Islamabad"
   },
+  
   {
     question: "Which one is a fruit?",
     options: ["Carrot", "Apple", "Potato", "Tomato"],
@@ -52,70 +53,80 @@ let questions = [
   }
 ];
 
-let countcorrect = 0 ;
-// ✅ Keeps track of the current question index
-let currentquestion = 0;
+// ✅ Initialize counters
+let currentquestion = 0;            // Keeps track of current question index
+let countcorrect = 0;              // Counts the number of correct answers
+let total_questions = questions.length;  // Stores total number of questions
 
-// ✅ Select the question display area from the HTML
-const questionText = document.querySelector(".quiz");
+// ✅ Get DOM elements
+const questionText = document.querySelector(".quiz");                    // Where question text is shown
+const optionButtons = document.querySelectorAll(".quizoptions button"); // All option buttons
+const nextbtn = document.querySelector(".next");                         // "Next" button
+const quiz_box = document.querySelector(".quiz_box");                    // Quiz box section
+const result_box = document.querySelector(".result_box");                // Result box section
+const result_display = document.querySelector(".result");               // Final result score text
+const result_message = document.querySelector(".result_message");       // Custom result message
 
-// ✅ Select all the option buttons from the HTML
-const optionButtons = document.querySelectorAll(".quizoptions button");
-
-// ✅ Function to display the current question and its options
+// ✅ Function to display a question and its options
 function showquestion() {
-  let q = questions[currentquestion]; // Get current question object
-  questionText.textContent = "Question: " + q.question; // Set question text
+  let q = questions[currentquestion];                      // Get current question object
+  questionText.textContent = "Question: " + q.question;    // Update question text in UI
 
-  // ✅ Set the text of each option button and attach click event
+  // Loop through each option button and set its text and behavior
   optionButtons.forEach((btn, index) => {
-    btn.textContent = q.options[index]; // Assign option text
+    btn.textContent = q.options[index];       // Set button text from options array
+    btn.classList.remove("correct", "wrong"); // Reset classes (in case already clicked before)
+    btn.disabled = false;      // Re-enable button for new question
 
-    // ✅ When user clicks on an option
+    // ✅ Set onClick behavior
     btn.onclick = () => {
-      const selectedOption = btn.textContent;
+      const selectedOption = btn.textContent;              // Get selected option text
 
-      // ✅ Check if the selected option is correct
+      // Check if answer is correct
       if (selectedOption === q.answer) {
-        btn.classList.add("correct"); // Highlight correct answer
-        countcorrect++
-
+        btn.classList.add("correct");                      // Add green background
+        countcorrect++;                                    // Increase correct counter
       } else {
-        btn.classList.add("wrong"); // Highlight wrong answer
+        btn.classList.add("wrong");                        // Add red background
       }
 
-      // ✅ Disable all buttons after one is clicked
+      // ✅ Disable all buttons after one selection to prevent multiple answers
       optionButtons.forEach(b => b.disabled = true);
     };
   });
 }
 
-// ✅ Show the first question when the page loads
+// ✅ Show the first question on initial load
 showquestion();
 
-// ✅ Select the "Next" button from the HTML
-let nextbtn = document.querySelector(".next");
+// ✅ Handle "Next" button click
+nextbtn.addEventListener("click", () => {
+  currentquestion++;                        // Move to next question index
 
-// ✅ When next button is clicked → move to next question
-nextbtn.addEventListener("click", nextquestion);
+  if (currentquestion < total_questions) {
+    showquestion();                         // If more questions, show next one
+  } else {
+    // ✅ No more questions → Show result
+    quiz_box.style.display = "none";        // Hide quiz box
+    result_box.style.display = "flex";      // Show result box (flex for layout)
 
-// ✅ Function to go to the next question
-function nextquestion() {
-  currentquestion++; // Move to next question index
+    result_display.textContent = `You got ${countcorrect} out of ${total_questions} questions right.`; // Show score
 
-  // ✅ If all questions are done, show final message
-  if (currentquestion === questions.length) {
-    alert("YOU COMPLETED THE QUIZ CONGRATULATION !");
-    alert("you got " +countcorrect+ " out of 10 ")
+    generateResultMessage();                // Call function to display custom message
   }
+});
 
-  // ✅ Show the next question (even if after last, will just repeat)
-  showquestion();
+// ✅ Function to display message based on score
+function generateResultMessage() {
+  let score = countcorrect;                 // Get total correct answers
 
-  // ✅ Reset button styles and enable buttons for next round
-  optionButtons.forEach((btn) => {
-    btn.classList.remove("correct", "wrong"); // Remove previous highlights
-    btn.disabled = false; // Enable the buttons again
-  });
+  if (score === total_questions) {
+    result_message.textContent = "🌟 Perfect Score! You're a genius!";
+  } else if (score >= total_questions * 0.7) {
+    result_message.textContent = "👍 Great job! Keep it up!";
+  } else if (score >= total_questions * 0.4) {
+    result_message.textContent = "🙂 Not bad, but there's room to improve.";
+  } else {
+    result_message.textContent = "💪 Keep practicing! You'll get better.";
+  }
 }
-

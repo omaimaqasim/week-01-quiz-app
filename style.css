@@ -1,105 +1,137 @@
 * {
-        margin: 0;
-        padding: 0;
-        font-family: cursive;
-        box-sizing: border-box;
-      }
+  margin: 0;
+  padding: 0;
+  font-family: cursive;
+  box-sizing: border-box; /* Ensures padding and border are included in total width/height */
+}
 
-      body {
-        background-color: #0a192f;
-        color: #ccd6f6;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
-      }
+body {
+  background-color: #0a192f;
+  color: #ccd6f6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh; /* Ensures body takes full screen height */
+}
 
-      h1 {
-        text-align: center;
-        margin: 20px;
-        font-size: 2.5rem;
-        color: #1e90ff;
-      }
+h1 {
+  text-align: center;
+  margin: 20px;
+  font-size: 2.5rem;
+  color: #1e90ff;
+}
 
-      .quiz_box {
-        width: 85%;
-        /* remember this if you apply height : 60vh then its height will be
-        fixed as in future if internal content expend then they will ome out from box
-        so dont apply height  */
-        max-width: 600px;
-        margin-bottom: 30px;
-        
-        background-color: #112240;
-        border-radius: 10px;
-        padding: 20px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-        text-align: center;
-      }
+.quiz_box {
+  width: 85%;
+  /* remember this if you apply height : 60vh then its height will be
+  fixed as in future if internal content expend then they will ome out from box
+  so dont apply height  */
+  max-width: 600px;
+  margin-bottom: 30px;
+  background-color: #112240;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); /* Adds soft shadow */
+  text-align: center;
+}
 
-      .quiz {
-        font-size: 1.4rem;
-        margin-top: 35px;
-        background-color: rgba(69, 76, 160, 0.3);
-        padding: 20px;
-        border-radius: 8px;
-        margin-bottom: 25px;
-      }
+.quiz {
+  font-size: 1.4rem;
+  margin-top: 35px;
+  background-color: rgba(69, 76, 160, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
 
-      .quizoptions {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        gap: 20px;
-        flex-wrap: wrap;
-        margin-bottom: 20px;
-      }
+.quizoptions {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
 
-      .quizoptions button,
-      .next_div button {
-        padding: 10px 20px;
-        border-radius: 30px;
-        width: 50%;
-        border: none;
-        background-color: #1e90ff;
-        color: #ffffff;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: background 0.3s ease;
-      }
+.quizoptions button,
+.next_div button {
+  padding: 10px 20px;
+  border-radius: 30px;
+  width: 50%;
+  border: none;
+  background-color: #1e90ff;
+  color: #ffffff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease; /* Smooth background color transition on hover */
+}
 
-      .quizoptions button:hover,
-      .next_div button:hover {
-        background-color: #4682b4;
-      }
+.quizoptions button:hover,
+.next_div button:hover {
+  background-color: #4682b4;
+}
 
-      .sec1, .sec2 {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        gap: 20px;
-      }
+.sec1, .sec2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 20px;
+}
 
-      .correct {
-        background-color: #14532d !important;
-        color: #d1fae5 !important;
-      }
+.correct {
+  background-color: #14532d !important; /* Green tone for correct */
+  color: #d1fae5 !important; /* Light green text */
+}
 
-      .wrong {
-        background-color: #7f1d1d !important;
-        color: #fee2e2 !important;
-      }
-      .next_div button{
-        background-color: #10b981;  /* Emerald */
+.wrong {
+  background-color: #7f1d1d !important; /* Red tone for incorrect */
+  color: #fee2e2 !important; /* Light red text */
+}
+
+.next_div button {
+  background-color: #10b981;  /* Emerald */
   color: #ffffff;
   width: 20%;
-  height: 8vh;
+  height: 8vh; /* vh helps size adapt to viewport height */
   font-size: 1rem;
   margin: 15px;
+}
 
-      }
-
-      .next_div button:hover {
+.next_div button:hover {
   background-color: #078b62; /* Or your chosen color */
+  transform: scale(1.02); /* Slight zoom effect on hover */
+}
+
+.result_box {
+  font-size: 1.2rem;
+  margin-top: 35px;
+  background-color: rgba(69, 76, 160, 0.3);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  width: 50vw; /* vw makes it responsive based on screen width */
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* ✅ Centers content */
+  gap: 15px; /* Adds spacing between children */
+}
+
+.result_box button {
+  background-color: #1e90ff; /* Same as title and theme */
+  color: #ffffff;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease; /* Smooth hover transitions */
+  width: fit-content; /* Width matches content */
+  align-self: center; /* Center align inside flexbox */
+}
+
+.result_box button:hover {
+  background-color: #4682b4; /* Steel Blue for hover effect */
+  transform: scale(1.05); /* Zooms button slightly on hover */
 }

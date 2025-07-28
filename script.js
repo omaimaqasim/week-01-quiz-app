@@ -5,7 +5,6 @@ let questions = [
     options: ["Karachi", "Islamabad", "Lahore", "Quetta"],
     answer: "Islamabad"
   },
-  
   {
     question: "Which one is a fruit?",
     options: ["Carrot", "Apple", "Potato", "Tomato"],
@@ -53,80 +52,114 @@ let questions = [
   }
 ];
 
-// ✅ Initialize counters
-let currentquestion = 0;            // Keeps track of current question index
-let countcorrect = 0;              // Counts the number of correct answers
-let total_questions = questions.length;  // Stores total number of questions
+// ✅ Initialize State Variables
+let currentquestion = 0;
+let countcorrect = 0;
+let total_questions = questions.length;
 
-// ✅ Get DOM elements
-const questionText = document.querySelector(".quiz");                    // Where question text is shown
-const optionButtons = document.querySelectorAll(".quizoptions button"); // All option buttons
-const nextbtn = document.querySelector(".next");                         // "Next" button
-const quiz_box = document.querySelector(".quiz_box");                    // Quiz box section
-const result_box = document.querySelector(".result_box");                // Result box section
-const result_display = document.querySelector(".result");               // Final result score text
-const result_message = document.querySelector(".result_message");       // Custom result message
+// ✅ DOM Elements
+const questionText = document.querySelector(".quiz");
+const optionButtons = document.querySelectorAll(".quizoptions button");
+const nextbtn = document.querySelector(".next");
+const quiz_box = document.querySelector(".quiz_box");
+const result_box = document.querySelector(".result_box");
+const result_display = document.querySelector(".result");
+const result_message = document.querySelector(".result_message");
+const scorebox = document.querySelector(".scorebox");
+const progressbar = document.querySelector(".progressbar");
 
-// ✅ Function to display a question and its options
+// ✅ Load First Question
+showquestion();
+updateScore(); // show initial score
+updateProgress(); // show initial progress
+
+// ✅ Function: Display Current Question
 function showquestion() {
-  let q = questions[currentquestion];                      // Get current question object
-  questionText.textContent = "Question: " + q.question;    // Update question text in UI
+  let q = questions[currentquestion];
+  questionText.textContent = "Question: " + q.question;
+  updateProgress()
 
-  // Loop through each option button and set its text and behavior
   optionButtons.forEach((btn, index) => {
-    btn.textContent = q.options[index];       // Set button text from options array
-    btn.classList.remove("correct", "wrong"); // Reset classes (in case already clicked before)
-    btn.disabled = false;      // Re-enable button for new question
+    btn.textContent = q.options[index];
+    btn.classList.remove("correct", "wrong");
+    btn.disabled = false;
 
-    // ✅ Set onClick behavior
     btn.onclick = () => {
-      const selectedOption = btn.textContent;              // Get selected option text
+      const selected = btn.textContent;
 
-      // Check if answer is correct
-      if (selectedOption === q.answer) {
-        btn.classList.add("correct");                      // Add green background
-        countcorrect++;                                    // Increase correct counter
+      if (selected === q.answer) {
+        btn.classList.add("correct");
+        countcorrect++;
       } else {
-        btn.classList.add("wrong");                        // Add red background
+        btn.classList.add("wrong");
       }
 
-      // ✅ Disable all buttons after one selection to prevent multiple answers
+      // Disable all buttons after one is selected
       optionButtons.forEach(b => b.disabled = true);
+
+      // Update score immediately
+      updateScore();
     };
   });
 }
 
-// ✅ Show the first question on initial load
-showquestion();
+// ✅ Function: Update Score Display
+function updateScore() {
+  scorebox.textContent = `Score: ${countcorrect} / ${total_questions}`;
+}
 
-// ✅ Handle "Next" button click
+// ✅ Function: Update Progress Bar
+function updateProgress() {
+  let percent = ((currentquestion +1)/ total_questions) * 100;
+  progressbar.style.width = percent + "%";
+  progressbar.textContent = percent + "%";
+}
+
+// ✅ Handle Next Button Click
 nextbtn.addEventListener("click", () => {
-  currentquestion++;                        // Move to next question index
+  currentquestion++;
 
   if (currentquestion < total_questions) {
-    showquestion();                         // If more questions, show next one
+    showquestion();
   } else {
-    // ✅ No more questions → Show result
-    quiz_box.style.display = "none";        // Hide quiz box
-    result_box.style.display = "flex";      // Show result box (flex for layout)
+    // Quiz Finished
+    quiz_box.style.display = "none";
+    result_box.style.display = "flex";
 
-    result_display.textContent = `You got ${countcorrect} out of ${total_questions} questions right.`; // Show score
+    result_display.textContent = `You got ${countcorrect} out of ${total_questions} questions right.`;
+    generateResultMessage();
 
-    generateResultMessage();                // Call function to display custom message
+    // Ensure progress bar shows full
+    progressbar.style.width = "100%";
+    progressbar.textContent = "100%";
   }
 });
 
-// ✅ Function to display message based on score
+// ✅ Function: Show Result Message Based on Score
 function generateResultMessage() {
-  let score = countcorrect;                 // Get total correct answers
-
-  if (score === total_questions) {
+  if (countcorrect === total_questions) {
     result_message.textContent = "🌟 Perfect Score! You're a genius!";
-  } else if (score >= total_questions * 0.7) {
+  } else if (countcorrect >= total_questions * 0.7) {
     result_message.textContent = "👍 Great job! Keep it up!";
-  } else if (score >= total_questions * 0.4) {
+  } else if (countcorrect >= total_questions * 0.4) {
     result_message.textContent = "🙂 Not bad, but there's room to improve.";
   } else {
     result_message.textContent = "💪 Keep practicing! You'll get better.";
   }
 }
+
+// ✅ Function: Restart Quiz
+function restartQuiz() {
+  currentquestion = 0;
+  countcorrect = 0;
+
+  result_box.style.display = "none";
+  quiz_box.style.display = "block";
+
+  showquestion();
+  updateScore();
+  updateProgress();
+}
+
+
+// now will give time a day after tomorrow

@@ -8,10 +8,21 @@
 </head>
 <body>
 
+  <!-- Title -->
   <h1>🧠 SmartQuiz</h1>
 
   <!-- Quiz Box -->
-  <div style="display: block;" class="quiz_box">
+  <div class="quiz_box" style="display: block;">
+    
+    <!-- Score Box -->
+    <div class="scorebox"></div>
+
+    <!-- Progress Bar -->
+    <div class="progress">
+      <div class="progressbar"></div>
+    </div>
+
+    <!-- Question -->
     <div class="quiz">
       Question
     </div>
@@ -32,16 +43,19 @@
     <div class="next_div">
       <button class="next">Next</button>
     </div>
+
   </div>
 
   <!-- Result Box -->
-  <div class="result_box" style="display: none;" >
+  <div class="result_box" style="display: none;">
     <h2>🎉 Quiz Completed!</h2>
     <div class="result"></div>
     <div class="result_message"></div>
     <button onclick="restartQuiz()">Restart Quiz</button>
   </div>
 
+  <!-- Script -->
   <script src="script.js"></script>
+
 </body>
 </html>
